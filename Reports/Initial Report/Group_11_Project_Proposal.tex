@@ -1,4 +1,4 @@
-\documentclass[pdftex,12pt,a4paper]{report}
+\documentclass[pdftex,12pt,a4paper]{article}
 
 \usepackage[pdftex]{graphicx}
 
@@ -6,6 +6,33 @@
 
 \begin{document}
 	\input{./title.tex}
+	
 	\tableofcontents
-	\section{}
+	\newpage
+	
+	\section{Problem Statement}
+		Using the movielens ml-100k data set, build a system that predicts for an unknown user (whose simple demographics are
+available):
+		\begin{itemize}
+			\item Whether the user is likely to see a given movie.
+			\item And if the answer to the above is Yes then the star rating (on a scale of 1 to 5) that the user will most likely give to the movie.
+		\end{itemize}
+	
+	\section{Challenges}
+		Today's world is full of choices across all product categories which makes it important for consumers to always make a better choice. Recommender systems were created to solve this need and have revolutionalized e-commerce and advertising. Movie recommendation systems study a user's movie viewing and rating history and intelligently predict the genre of movies that a particular user might prefer and the rating he might give to a movie. This provides a powerful tool to both movie viewers and distributers. In a movie recommender system there can be several challenges:
+		\begin{itemize}
+			\item If a movie has very few ratings, it is difficult to predict recommendations on it.
+			\item Users have varying rating patterns. Some users give an average rating to almost all movies while some always give extreme ratings. Still others show a spread from 1 to 5. Some users give higher ratings to some directors and stars.
+			\item There can be attributes which are not given in the existing data set but which contribute to a user's rating.
+		\end{itemize}
+	
+	\section{Related Work}
+		Earlier works~\cite{Schein2002,MarlinThesis2004} have implemented several techniques like K-Nearest Neighbour classifiers, Naive Bayes classifiers and K-Medians clustering to make recommendations on this same dataset and to compare the results to Probabilistic and Collaborative prediction techniques. The most effective techniques for movie recommendation on this dataset have been Collaborative Filtering~\cite{Sarwar2001,Agarwal2009} and other matrix factorization methods~\cite{CoTriFactor2009}. MovieLens itself uses collaborative filtering to make recommendations.
+	
+	\section{DataSet Review}
+	
+	\section{Methodology}
+
+	\bibliographystyle{amsplain}
+	\bibliography{references}
 \end{document}

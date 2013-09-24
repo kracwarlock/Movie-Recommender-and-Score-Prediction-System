@@ -3,6 +3,8 @@
 *.pdf
 *.synctex.gz
 *.toc
+*.bbl
+*.blg
 
 README
 allbut.pl
