@@ -49,8 +49,8 @@ available):
 		where $I_{xy}$ is the set of movies rated by both users x and y.\\\\
 		While both of these are memory based approaches, we might also go for model based approaches. The similarity functions can be used to find similarity between both users and movies. The final recommeder system will handle 2 tasks:
 		\begin{itemize}
-			\item Recommendation: Will the user like a movie? This can either be given as a confidence measure or as a simple yes or no answer by keeping a threshold on the confidence measure.
-			\item Prediction: If the user will view a movie, what rating will he give to it? This will be a number from 1 to 5.
+			\item Recommendation: Will the user like a movie? This can either be given as a confidence measure or as a simple yes or no answer by keeping a threshold on the confidence measure. For this, we will first find out some N similar users to our new user using user attributes if the user is completely new or using user attributes and past history if he has rated some movies. Based on this we will recommend a movie.
+			\item Prediction: If the user will view a movie, what rating will he give to it? This will be a number from 1 to 5. This will also take into account ratings the user has given to similar movies.
 		\end{itemize}
 
 	\bibliographystyle{amsplain}
