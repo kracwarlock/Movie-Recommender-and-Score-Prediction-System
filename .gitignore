@@ -5,6 +5,7 @@
 *.toc
 *.bbl
 *.blg
+*.asv
 
 README
 allbut.pl
