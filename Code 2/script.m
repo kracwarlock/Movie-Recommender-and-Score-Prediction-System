@@ -1,4 +1,3 @@
-%{
 dataset=read_dataset('../ml-100k/u1.base',0);
 save('dataset','dataset');
 
@@ -107,7 +106,6 @@ for i=1:943
     end
 end
 save('testset_predicted','testset_predicted');
-%}
 
 
 load('testset_predicted.mat');
