@@ -67,9 +67,9 @@ for i=1:1682
     end
 end
 save('test_ratings','test_ratings');
-%}
 
-%{
+
+
 error_sq = 0;
 count = 0;
 for i=1:1682
@@ -83,9 +83,9 @@ end
 count
 error_sq
 crossval_rmse = sqrt(error_sq/count)
-%}
 
-%{
+
+
 load('D.mat');
 KDT = KDTreeSearcher(D);
 testset_predicted=zeros(943,1682);
