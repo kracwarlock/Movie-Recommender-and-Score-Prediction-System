@@ -1,5 +1,5 @@
 
-dataset=read_dataset('../ml-100k/u1.base',0);
+dataset=read_dataset('../ml-100k/u2.base',0);
 save('dataset','dataset');
 
 similarity=pearsonsimilarity(dataset);
@@ -56,7 +56,7 @@ save('train_ratings_final','train_ratings');
 
 
 
-testset=read_dataset('../ml-100k/u1.test',0);
+testset=read_dataset('../ml-100k/u2.test',0);
 save('testset','testset');
 test_ratings=zeros(943,1682);
 for i=1:1682
