@@ -1,8 +1,10 @@
+
 dataset=read_dataset('../ml-100k/u1.base',0);
 save('dataset','dataset');
 
 similarity=pearsonsimilarity(dataset);
 save('similarity','similarity');
+
 train_ratings=zeros(943,1682);
 
 for i=1:1682
@@ -21,12 +23,16 @@ end
 save('train_ratings','train_ratings');
 
 load('train_ratings.mat');
+train_ratings_orig=train_ratings;
+save('train_ratings_orig','train_ratings_orig');
+train_ratings_temp=zeros(943,1682);
 for i=1:1682
     for j=1:943
-        train_ratings(j,i)=find_rating(j,i,dataset,similarity,20);
-        sprintf('%d %d',j,i)
+        train_ratings_temp(j,i)=find_rating(j,i,dataset,similarity,20);
     end
+    sprintf('%d',i)
 end
+train_ratings=train_ratings_temp;
 save('train_ratings_all_done','train_ratings');
 train_ratings(isnan(train_ratings))=0;
 save('train_ratings_wonan','train_ratings');
@@ -74,9 +80,9 @@ error_sq = 0;
 count = 0;
 for i=1:1682
     for j=1:943
-        if(test_ratings(j,i)~=0 && train_ratings(j,i)~=0)
+        if(train_ratings_orig(j,i)>=1)
             count = count+1;
-            error_sq = error_sq + abs(test_ratings(j,i)-train_ratings(j,i))*abs(test_ratings(j,i)-train_ratings(j,i));
+            error_sq = error_sq + abs(train_ratings_orig(j,i)-train_ratings(j,i))*abs(train_ratings_orig(j,i)-train_ratings(j,i));
         end
     end
 end
@@ -113,9 +119,9 @@ error_sq = 0;
 count = 0;
 for i=1:1682
     for j=1:943
-        if(test_ratings(j,i)>0)
+        if(test_ratings(j,i)>=1)
             count = count+1;
-            error_sq = error_sq + abs(test_ratings(j,i)-testset_predicted(j,i))*abs(test_ratings(j,i)-train_ratings(j,i));
+            error_sq = error_sq + abs(test_ratings(j,i)-testset_predicted(j,i))*abs(test_ratings(j,i)-testset_predicted(j,i));
         end
     end
 end
