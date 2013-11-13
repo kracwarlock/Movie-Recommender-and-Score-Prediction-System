@@ -1,4 +1,4 @@
-function rating=demo(age,gender,occupation,movie,K)
+function rating=demo(age,gender,occupation,zipcode,movie,K)
     load('D.mat');
     load('train_ratings_final.mat');
     load('movie_demo.mat');
@@ -76,4 +76,9 @@ function rating=demo(age,gender,occupation,movie,K)
         rating = rating + train_ratings(IDX(k),movie);
     end
     rating = rating/K;
+    if rating>3.2
+        fprintf('Yes, he is likely to watch the movie');
+    else
+        fprintf('No, he is not likely to watch the movie');
+    end
 end
