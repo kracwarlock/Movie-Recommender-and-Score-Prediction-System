@@ -9,6 +9,7 @@ Team Members
 Usage
 -----------------------------------------------------
 All scripts are in 'Code 2' folder so switch to that directory
+
 -----------------------------------------------------
 To find out rating of a movie for a user whose only the demographic information is known run this command:
 
