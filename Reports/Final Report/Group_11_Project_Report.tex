@@ -1,0 +1,79 @@
+\documentclass[pdftex,12pt,a4paper]{article}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+	\input{./title.tex}
+	
+	\tableofcontents
+	\newpage
+	
+	\section{Problem Statement}
+		Using the movielens ml-100k data set, build a system that predicts for an unknown user (whose simple demographics are
+available):
+		\begin{itemize}
+			\item Whether the user is likely to see a given movie.
+			\item And if the answer to the above is Yes then the star rating (on a scale of 1 to 5) that the user will most likely give to the movie.
+		\end{itemize}
+	
+	\section{Challenges}
+		Today's world is full of choices across all product categories which makes it important for consumers to always make a better choice. Recommender systems were created to solve this need and have revolutionalized e-commerce and advertising. Movie recommendation systems study a user's movie viewing and rating history and intelligently predict the genre of movies that a particular user might prefer and the rating he might give to a movie. This provides a powerful tool to both movie viewers and distributers. In a movie recommender system there can be several challenges:
+		\begin{itemize}
+			\item If a movie has very few ratings, it is difficult to predict recommendations on it.
+			\item Users have varying rating patterns. Some users give an average rating to almost all movies while some always give extreme ratings. Still others show a spread from 1 to 5. Some users give higher ratings to some directors and stars.
+			\item There can be attributes which are not given in the existing data set but which contribute to a user's rating.
+		\end{itemize}
+	
+	\section{Related Work}
+		Earlier works~\cite{Schein2002,MarlinThesis2004} have implemented several techniques like K-Nearest Neighbour classifiers, Naive Bayes classifiers and K-Medians clustering to make recommendations on this same dataset and to compare the results to Probabilistic and Collaborative prediction techniques. The most effective techniques for movie recommendation on this dataset have been Collaborative Filtering~\cite{Sarwar2001,Agarwal2009} and other matrix factorization methods~\cite{CoTriFactor2009}. MovieLens itself uses collaborative filtering to make recommendations~\cite{Herlocker1999}.
+	
+	\section{DataSet Review}
+		The data set consists of entries for 943 users, 1,682 movies and 100,000 ratings. Demographic data of the users has also been provided and includes age, gender, occupation and zipcode. The genre of the movies and some other information about the movies is also provided.
+	
+	\section{Methodology}
+		We are using Collaborative Filtering to provide movie recommendations. The rating $r$ which we predict for a movie $i$ by a user $u$ are an aggregation of ratings given by top N users who are most similar to user $u$ and rated movie $i$.
+		\begin{center}
+			$r_{u,i} = aggr_{u^\prime \in U} r_{u^\prime, i}$
+		\end{center}
+		where $U$ is the set of all users except $u$.\\\\
+		For finding the most similar N users, we have used the Pearson correlation similarity between two users x, y which is:
+		\begin{center}
+			$simil(x,y) = \frac{\sum\limits_{i \in I_{xy}}(r_{x,i}-\bar{r_x})(r_{y,i}-\bar{r_y})}{\sqrt{\sum\limits_{i \in I_{xy}}(r_{x,i}-\bar{r_x})^2\sum\limits_{i \in I_{xy}}(r_{y,i}-\bar{r_y})^2}}$
+		\end{center}
+		We also explored using other similarity functions like constrained Pearson correlation similarity ($\bar{r_x}=3, \bar{r_y}=3$) but these did not produce better results than the original Pearson correlation similarity function.\\
+
+		We first find the similarity between all the users and store it in a 943x943 matrix. We then predict the ratings for all users for all movies using Collaborative Filtering approach defined above. We used average of top 20 similar users as the aggregation function. We now have a 943x1682 filled matrix. For computing the accuracy on the training set, we calculate the root mean squared error between predicted and actual values. We do a 5-fold cross validation across the dataset.\\
+
+		We also utilize the demographic data of a user such as the age, gender, occupation of a user to make recommendations. We generate a bit feature vector for all the users in the dataset. The vector has 30 features. We have divided people into 8 age groups of 10 years from 0-79 and this contributes 8 bits. The gender contributes 1 bit. 21 occupations are listed in the dataset and this completes our feature vector. We generate a k-d tree for all the features of all users. When we encounter a new user, we use K-Nearest Neighbours algorithm to find 5 closest users using the k-d tree. Now to predict a movie rating for this user we just have to select the ratings of the user's 5 nearest neighours from the 943x1682 filled matrix and take their average.\\
+
+		The final recommeder system now handles 2 tasks:
+		\begin{itemize}
+			\item Recommendation: Will the user like a movie? We have provided this as a simple yes or no answer by keeping a threshold on the confidence measure which in this case is the predicted rating for the movie by the user. If we just have to recommend any movie to the user (a possible extension of the problem statement), we can predict ratings for all movies and provide the highest rated ones.
+			\item Prediction: If the user will view a movie, what rating will he give to it? This will be a value between 1 and 5.
+		\end{itemize}
+
+	\section{Results}
+		The following table presents our results on the MovieLens ml-100k dataset. These results are for the 5-fold cross-validation we have done. The training set error is for the collaborative filtering algorithm. The test set error is the error when we know only the demographic information of a test user.
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|c|}
+				\hline
+				DataSet & Training Ratings & Test Ratings & Training RMSE & Test RMSE\\\hline
+				u1 & 80000 & 20000 & 0.8759 & 1.0959\\
+				u2 & 80000 & 20000 & 0.8766 & 1.0813\\
+				u3 & 80000 & 20000 & 0.8798 & 1.0700\\
+				u4 & 80000 & 20000 & 0.8736 & 1.0714\\
+				u5 & 80000 & 20000 & 0.8747 & 1.0627\\\hline
+				 & & \textbf{Average Values} & \textbf{0.8761} & \textbf{1.0763}\\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+	\section{Code}
+		The code and related reports and readme files for the project are available at \url{https://github.com/kracwarlock/Movie-Recommender-and-Score-Prediction-System}
+
+	\bibliographystyle{amsplain}
+	\bibliography{references}
+\end{document}

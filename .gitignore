@@ -3,6 +3,7 @@
 *.pdf
 *.synctex.gz
 *.toc
+*.out
 *.bbl
 *.blg
 *.asv
